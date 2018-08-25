@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-import land as ld
+import Land as ld
 
 class Event():
 	inventory=0
@@ -17,6 +17,13 @@ class Event():
 		if position_guard[0]==self.y and position_guard[1]==self.x:
 			if type(self).inventory==3:
 				print("VICTOIRE")
+
+				myfont = pygame.font.SysFont("monospace", 15)
+				label = myfont.render("Bravo vous avez gagné !", 1, (255,255,255))
+				self.fenetre.blit(label, (20, 150))
+				pygame.display.flip()
+				
+
 
 			else:
 				print("DEFAITE")

@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-import land as ld
-import character as ch
+import Land as ld
+import Character as ch
 import Event as ev
 class Control():
 	cont=True
@@ -19,7 +19,7 @@ class Control():
 		    	keys_pressed = pygame.key.get_pressed()
 
 		    	if keys_pressed[pygame.K_ESCAPE]:
-		    		pygame.quit()
+		    		pygame.QUIT
 		    		#a modif
 		    	if keys_pressed[pygame.K_LEFT]:
 		        	self.left()
@@ -31,6 +31,8 @@ class Control():
 		        	self.down()	
 		        		
 		    	clock.tick(60)
+
+
 
 
 
