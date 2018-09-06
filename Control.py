@@ -1,26 +1,34 @@
 import pygame
 from pygame.locals import *
+import sys
 import Land as ld
 import Character as ch
 import Event as ev
+import Engine as en
+
 class Control():
 	cont=True
 ##define all controls
-	def __init__(self,x,y, fenetre):
-		self.x=x
-		self.y=y
-		self.fenetre=fenetre
-		self.tab_land=ld.Land(self.fenetre).tab_land
+	def __init__(self,x,y, window):
+		self.x = x
+		self.y = y
+		self.window = window
+		self.tab_land = ld.Land(self.window).tab_land
 
 		clock = pygame.time.Clock()
+		quit = 0
 		
-		while self.cont==True:
+		while self.cont == True:
 		    for event in pygame.event.get():
 		    	keys_pressed = pygame.key.get_pressed()
+		    	if event.type == QUIT:    
+		    		self.cont = False
+		    		quit = 1
 
 		    	if keys_pressed[pygame.K_ESCAPE]:
-		    		pygame.QUIT
-		    		#a modif
+		    		self.cont = False
+		    		quit = 1
+		    		
 		    	if keys_pressed[pygame.K_LEFT]:
 		        	self.left()
 		    	if keys_pressed[pygame.K_RIGHT]:
@@ -32,73 +40,86 @@ class Control():
 		        		
 		    	clock.tick(60)
 
+		ev.Event(self.window, self.x,self.y).reset()
+		if quit == 1:
+			pygame.quit()
+			sys.exit()
+		else :
+			self.cont = True
+			while self.cont == True:
+				for event in pygame.event.get():
+					keys_pressed = pygame.key.get_pressed()
+					if event.type == QUIT:    
+						self.cont = False
+						pygame.quit()
+						sys.exit()
 
+					if keys_pressed[pygame.K_SPACE]:
+						self.cont = False
+						pygame.quit()
+						#sys.exit()
+						en.Engine().launch_game()
+					clock.tick(60)
 
+				
 
 
 	def right(self):
-		if self.x>=14:
-			pass
-		elif self.tab_land[(self.y,self.x+1)]=="W":
+		if self.x >= 14 or self.tab_land[(self.y,self.x+1)] == "W":
 			pass
 		else:
 			fond = pygame.image.load("ressource/floor.png").convert()
-			self.fenetre.blit(fond, (self.x*20,self.y*20))
-			char=ch.Character(self.fenetre)
+			self.window.blit(fond, (self.x*20,self.y*20))
+			char=ch.Character(self.window)
 			move=char.macgiver(self.x+1,self.y)
-			self.x=self.x+1
-			check_object=ev.Event(self.fenetre, self.x,self.y).check_object()
-			end_condition=ev.Event(self.fenetre, self.x,self.y).end_game()
-			if end_condition==False:
-				self.cont=False
+			self.x = self.x+1
+			check_object = ev.Event(self.window, self.x,self.y).check_object()
+			end_condition = ev.Event(self.window, self.x,self.y).end_game()
+			if end_condition == False:
+				self.cont = False
 			
 
 
 
 	def left(self):
-		if self.x<=0:
-			pass
-		elif self.tab_land[(self.y,self.x-1)]=="W":
+		if self.x <= 0 or self.tab_land[(self.y,self.x-1)] == "W":
 			pass
 		else:
 			fond = pygame.image.load("ressource/floor.png").convert()
-			self.fenetre.blit(fond, (self.x*20,self.y*20))
-			char=ch.Character(self.fenetre)
-			move=char.macgiver(self.x-1,self.y)
-			self.x=self.x-1
-			check_object=ev.Event(self.fenetre, self.x,self.y).check_object()
-			end_condition=ev.Event(self.fenetre, self.x,self.y).end_game()
-			if end_condition==False:
-				self.cont=False
+			self.window.blit(fond, (self.x*20,self.y*20))
+			char = ch.Character(self.window)
+			move = char.macgiver(self.x-1,self.y)
+			self.x = self.x-1
+			check_object = ev.Event(self.window, self.x,self.y).check_object()
+			end_condition = ev.Event(self.window, self.x,self.y).end_game()
+			if end_condition == False:
+				self.cont = False
 
 	def up(self):
-		if self.y<=0:
-			pass
-		elif self.tab_land[(self.y-1,self.x)]=="W":
+		if self.y <= 0 or self.tab_land[(self.y-1,self.x)] == "W":
 			pass
 		else:
 			fond = pygame.image.load("ressource/floor.png").convert()
-			self.fenetre.blit(fond, (self.x*20,self.y*20))
-			char=ch.Character(self.fenetre)
-			move=char.macgiver(self.x,self.y-1)
-			self.y=self.y-1
-			check_object=ev.Event(self.fenetre, self.x,self.y).check_object()
-			end_condition=ev.Event(self.fenetre, self.x,self.y).end_game()
-			if end_condition==False:
-				self.cont=False
+			self.window.blit(fond, (self.x*20,self.y*20))
+			char = ch.Character(self.window)
+			move = char.macgiver(self.x,self.y-1)
+			self.y = self.y-1
+			check_object = ev.Event(self.window, self.x,self.y).check_object()
+			end_condition = ev.Event(self.window, self.x,self.y).end_game()
+			if end_condition == False:
+				self.cont = False
 
 	def down(self):
-		if self.y>=14:
-			pass
-		elif self.tab_land[(self.y+1,self.x)]=="W":
+		if self.y >= 14 or self.tab_land[(self.y+1,self.x)] == "W":
 			pass
 		else:
 			fond = pygame.image.load("ressource/floor.png").convert()
-			self.fenetre.blit(fond, (self.x*20,self.y*20))
-			char=ch.Character(self.fenetre)
-			move=char.macgiver(self.x,self.y+1)
-			self.y=self.y+1
-			check_object=ev.Event(self.fenetre, self.x,self.y).check_object()
-			end_condition=ev.Event(self.fenetre, self.x,self.y).end_game()
-			if end_condition==False:
+			self.window.blit(fond, (self.x*20,self.y*20))
+			char = ch.Character(self.window)
+			move = char.macgiver(self.x,self.y+1)
+			self.y = self.y+1
+			check_object = ev.Event(self.window, self.x,self.y).check_object()
+
+			end_condition = ev.Event(self.window, self.x,self.y).end_game()
+			if end_condition == False:
 				self.cont=False
