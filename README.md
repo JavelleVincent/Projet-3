@@ -1,5 +1,6 @@
 # MacGyver
 
+Le but du jeu est d'emmener Mac Giver à la fin du niveau en ramassant les 3 objets et en l'amenant au Gardien, une fois terminé vous pouvez recommencer le jeu en appuyant sur Espace.
 
 ## Requirement
 
